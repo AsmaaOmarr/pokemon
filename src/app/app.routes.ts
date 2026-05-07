@@ -6,4 +6,8 @@ export const routes: Routes = [
     path: 'home',
     loadComponent: () => import('./features/home/home.component').then((m) => m.HomeComponent),
   },
+  {
+    path: 'pokemon/:id',
+    loadComponent: () => import('./features/pokemon-details/pokemon-details.component').then((m) => m.PokemonDetailsComponent),
+  }
 ];

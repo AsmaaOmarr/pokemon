@@ -3,7 +3,9 @@
 <p class="my-4 text-xs font-light text-gray-600">{{ pokemonStore.pokemonCount() }} results</p>
 <div class="flex flex-row flex-wrap gap-6 justify-between">
   @for (pokemon of pokemonStore.pokemonList(); track pokemon.id) {
-    <app-pokemon-card [pokemon]="pokemon" />
+    <a [routerLink]="['/pokemon', pokemon.id]">
+      <app-pokemon-card [pokemon]="pokemon" />
+    </a>
   }
 </div>
 <div class="flex justify-center gap-4 my-10">
