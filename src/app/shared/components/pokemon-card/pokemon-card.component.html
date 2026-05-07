@@ -1,0 +1,11 @@
+<div
+  class="group relative border w-50 h-70 rounded-3xl border-gray-200 shadow-md p-4 bg-linear-to-br from-blue-100 to-white hover:scale-105 transition-all duration-500 ease-in-out"
+>
+  <p class="text-sm font-light text-gray-600 absolute top-5 left-5"># {{ pokemon()?.id }}</p>
+  <img
+    src="{{ pokemon()?.image }}"
+    alt=""
+    class="w-36 h-36 mt-12 mx-auto group-hover:animate-bounce transition-all duration-500 ease-in-out"
+  />
+  <p class="font-serif my-4 font-bold">{{ pokemon()?.name }}</p>
+</div>

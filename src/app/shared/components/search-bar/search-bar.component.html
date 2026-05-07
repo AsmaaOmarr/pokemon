@@ -1,0 +1,11 @@
+<div class="relative w-full max-w-4xl mx-auto">
+  <input
+    type="text"
+    [placeholder]="placeholder()"
+    class="w-full pl-12 pr-4 py-3 rounded-full bg-white backdrop-blur-md border border-gray-200 shadow-md focus:outline-none focus:border-transparent hover:shadow-[0_0_15px_rgba(59,130,246,0.6)] focus:shadow-[0_0_15px_rgba(59,130,246,0.6)] transition-all duration-500 placeholder:font-light"
+    (input)="onInput($event)"
+  />
+  <div class="absolute left-5 top-4 text-gray-600">
+    <ng-icon name="heroMagnifyingGlassSolid"></ng-icon>
+  </div>
+</div>
