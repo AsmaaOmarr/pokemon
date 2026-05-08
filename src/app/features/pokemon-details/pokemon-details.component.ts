@@ -1,6 +1,6 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, computed, inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { PokemonDetailsStoreService } from './pokemon-details-store';
+import { PokemonDetailsStoreService } from '../../store/pokemon-details-store';
 
 @Component({
   selector: 'app-pokemon-details',
@@ -8,12 +8,31 @@ import { PokemonDetailsStoreService } from './pokemon-details-store';
 })
 export class PokemonDetailsComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
-  protected readonly pokemonDetailsStore = inject(PokemonDetailsStoreService);
+  private readonly pokemonDetailsStore = inject(PokemonDetailsStoreService);
+  protected readonly pokemon = computed(() => this.pokemonDetailsStore.pokemonDetails());
+  protected readonly infoCards = computed(() => {
+    const pokemon = this.pokemon();
+    if (!pokemon) return [];
+    return [
+      {
+        title: 'Height',
+        value: pokemon.height,
+      },
+      {
+        title: 'Weight',
+        value: pokemon.weight,
+      },
+      {
+        title: 'Experience',
+        value: pokemon.base_experience,
+      },
+    ];
+  });
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {
-     const id = Number(this.route.snapshot.paramMap.get('id'));
-     this.pokemonDetailsStore.getPokemon(id);
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+    this.pokemonDetailsStore.getPokemon(id);
   }
 }

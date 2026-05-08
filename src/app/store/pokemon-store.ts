@@ -1,7 +1,7 @@
 import { Injectable, inject, signal } from '@angular/core';
-import { PokemonApiService } from '../../services/pokemon-api.service';
-import { IPokemon } from './models/pokemon';
 import { map } from 'rxjs';
+import { IPokemon } from '../models/pokemon.model';
+import { PokemonApiService } from '../services/pokemon-api.service';
 
 @Injectable({
   providedIn: 'root',

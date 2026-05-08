@@ -3,7 +3,8 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { IPokemonListResponse } from '../features/home/models/pokemon';
+import { IPokemonListResponse } from '../models/pokemon.model';
+import { IPokemonDetails } from '../models/pokemon-details.model';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +17,7 @@ export class PokemonApiService {
     return this.http.get<IPokemonListResponse>(url || `${this.baseUrl}`);
   }
 
-  getPokemonById(id: number): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/${id}`);
+  getPokemonById(id: number): Observable<IPokemonDetails> {
+    return this.http.get<IPokemonDetails>(`${this.baseUrl}/${id}`);
   }
 }

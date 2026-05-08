@@ -1,25 +1,25 @@
 <app-search-bar placeholder="Search by name or id..." (search)="handleSearch($event)" />
 <p class="mt-6 font-semibold text-xl">All Pokémon</p>
-<p class="my-4 text-xs font-light text-gray-600">{{ pokemonStore.pokemonCount() }} results</p>
+<p class="my-4 text-xs font-light text-gray-600">{{ pokemonCount() }} results</p>
 <div class="flex flex-row flex-wrap gap-6 justify-between">
-  @for (pokemon of pokemonStore.pokemonList(); track pokemon.id) {
-    <a [routerLink]="['/pokemon', pokemon.id]">
+  @for (pokemon of pokemonList(); track pokemon.id) {
+    <div (click)="navigateToPokemonDetails(pokemon.id ?? 1)">
       <app-pokemon-card [pokemon]="pokemon" />
-    </a>
+    </div>
   }
 </div>
 <div class="flex justify-center gap-4 my-10">
   <button
     class="px-4 py-1 rounded bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
-    (click)="pokemonStore.prevPage()"
-    [disabled]="!pokemonStore.prevUrl()"
+    (click)="prevPage()"
+    [disabled]="!prevUrl()"
   >
     Previous
   </button>
   <button
     class="px-4 py-1 rounded bg-green-500 text-white disabled:opacity-50 disabled:cursor-not-allowed"
-    (click)="pokemonStore.nextPage()"
-    [disabled]="!pokemonStore.nextUrl()"
+    (click)="nextPage()"
+    [disabled]="!nextUrl()"
   >
     Next
   </button>
