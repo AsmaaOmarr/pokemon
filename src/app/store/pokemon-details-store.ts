@@ -10,12 +10,18 @@ export class PokemonDetailsStoreService {
 
   pokemonDetails = signal<IPokemonDetails | null>(null);
   loading = signal(false);
+  pokemonCache = new Map<number, IPokemonDetails>();
 
   getPokemon(id: number): void {
+    if (this.pokemonCache.has(id)) {
+      this.pokemonDetails.set(this.pokemonCache.get(id)!);
+      return;
+    }
     this.loading.set(true);
     this.pokemonApi.getPokemonById(id).subscribe({
       next: (data: IPokemonDetails) => {
         this.pokemonDetails.set(data);
+        this.pokemonCache.set(id, data);
         this.loading.set(false);
       },
     });

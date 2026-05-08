@@ -19,7 +19,6 @@ export class PokemonStoreService {
       .getPokemonList(url)
       .pipe(
         map((res: IPokemonListResponse) => {
-          console.log('Pokemons loaded:', res);
           const results = res.results.map((pokemon) => {
             const id = this.extractPokemonId(pokemon.url);
             return {
