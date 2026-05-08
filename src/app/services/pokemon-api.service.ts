@@ -13,8 +13,8 @@ export class PokemonApiService {
   private readonly http = inject(HttpClient);
   private readonly baseUrl = 'https://pokeapi.co/api/v2/pokemon';
 
-  getPokemonList(url?: string): Observable<IPokemonListResponse> {
-    return this.http.get<IPokemonListResponse>(url || `${this.baseUrl}`);
+  getPokemonList(url?: string, limit: number = 42): Observable<IPokemonListResponse> {
+    return this.http.get<IPokemonListResponse>(url || `${this.baseUrl}?limit=${limit}`);
   }
 
   getPokemonById(id: number): Observable<IPokemonDetails> {

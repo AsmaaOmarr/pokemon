@@ -9,5 +9,6 @@ export const routes: Routes = [
   {
     path: 'pokemon/:id',
     loadComponent: () => import('./features/pokemon-details/pokemon-details.component').then((m) => m.PokemonDetailsComponent),
-  }
+  },
+  { path: '**', redirectTo: 'home' },
 ];

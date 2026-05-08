@@ -14,18 +14,18 @@ export class HomeComponent implements OnInit {
   private router = inject(Router);
 
   protected readonly pokemonList = computed(() => this.pokemonStore.pokemonList());
-  protected readonly pokemonCount = computed(() => this.pokemonStore.pokemonCount());
-  protected readonly prevUrl = computed(() => this.pokemonStore.prevUrl());
-  protected readonly nextUrl = computed(() => this.pokemonStore.nextUrl())
+  protected readonly pokemonCount = computed(() => this.pokemonStore.pokemonListResponse().count);
+  protected readonly prevUrl = computed(() => this.pokemonStore.pokemonListResponse().previous);
+  protected readonly nextUrl = computed(() => this.pokemonStore.pokemonListResponse().next);
 
   ngOnInit() {
     this.pokemonStore.loadPokemons();
   }
 
-  navigateToPokemonDetails(id : number) {
+  navigateToPokemonDetails(id: number) {
     this.router.navigate(['/pokemon', id]);
   }
-  
+
   nextPage() {
     this.pokemonStore.nextPage();
   }
@@ -34,6 +34,6 @@ export class HomeComponent implements OnInit {
     this.pokemonStore.prevPage();
   }
   handleSearch(query: string) {
-    console.log('Search query:', query);
+    this.pokemonStore.searchPokemon(query);
   }
 }

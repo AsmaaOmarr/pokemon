@@ -1,6 +1,6 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { map } from 'rxjs';
-import { IPokemon } from '../models/pokemon.model';
+import { IPokemon, IPokemonListResponse } from '../models/pokemon.model';
 import { PokemonApiService } from '../services/pokemon-api.service';
 
 @Injectable({
@@ -10,22 +10,17 @@ export class PokemonStoreService {
   private readonly pokemonApi = inject(PokemonApiService);
 
   loading = signal(false);
-  pokemonCount = signal(0);
   pokemonList = signal<IPokemon[]>([]);
-  //pagination properties
-  nextUrl = signal<string | null>(null);
-  prevUrl = signal<string | null>(null);
+  pokemonListResponse = signal<IPokemonListResponse>({} as IPokemonListResponse);
 
   loadPokemons(url?: string): void {
     this.loading.set(true);
     this.pokemonApi
       .getPokemonList(url)
       .pipe(
-        map((res) => {
-          this.nextUrl.set(res.next);
-          this.prevUrl.set(res.previous);
-          this.pokemonCount.set(res.count);
-          return res.results.map((pokemon) => {
+        map((res: IPokemonListResponse) => {
+          console.log('Pokemons loaded:', res);
+          const results = res.results.map((pokemon) => {
             const id = this.extractPokemonId(pokemon.url);
             return {
               id,
@@ -34,24 +29,39 @@ export class PokemonStoreService {
               url: pokemon.url,
             };
           });
+          return { ...res, results };
         }),
       )
       .subscribe({
-        next: (data) => {
-          this.pokemonList.set(data);
+        next: (data: IPokemonListResponse) => {
+          this.pokemonList.set(data.results);
+          this.pokemonListResponse.set(data);
           this.loading.set(false);
         },
       });
   }
 
   nextPage(): void {
-    if (!this.nextUrl()) return;
-    this.loadPokemons(this.nextUrl()!);
+    if (!this.pokemonListResponse().next) return;
+    this.loadPokemons(this.pokemonListResponse().next!);
   }
 
   prevPage(): void {
-    if (!this.prevUrl()) return;
-    this.loadPokemons(this.prevUrl()!);
+    if (!this.pokemonListResponse().previous) return;
+    this.loadPokemons(this.pokemonListResponse().previous!);
+  }
+
+  searchPokemon(query: string): void {
+    if (!query.trim()) {
+      this.loadPokemons();
+      return;
+    }
+    const filtered = this.pokemonList().filter(
+      (pokemon) =>
+        pokemon.name.toLowerCase().includes(query.toLowerCase()) ||
+        pokemon.id?.toString().includes(query),
+    );
+    this.pokemonListResponse.set({ ...this.pokemonListResponse(), results: filtered });
   }
   private extractPokemonId(url: string): number {
     const segments = url.split('/').filter(Boolean);
