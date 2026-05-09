@@ -2,19 +2,20 @@ import { Injectable, inject, signal } from '@angular/core';
 import { map } from 'rxjs';
 import { IPokemon, IPokemonListResponse } from '../models/pokemon.model';
 import { PokemonApiService } from '../services/pokemon-api.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PokemonStoreService {
   private readonly pokemonApi = inject(PokemonApiService);
+  private readonly spinner = inject(NgxSpinnerService);
 
-  loading = signal(false);
   pokemonList = signal<IPokemon[]>([]);
   pokemonListResponse = signal<IPokemonListResponse>({} as IPokemonListResponse);
 
   loadPokemons(url?: string): void {
-    this.loading.set(true);
+    this.spinner.show();
     this.pokemonApi
       .getPokemonList(url)
       .pipe(
@@ -35,7 +36,10 @@ export class PokemonStoreService {
         next: (data: IPokemonListResponse) => {
           this.pokemonList.set(data.results);
           this.pokemonListResponse.set(data);
-          this.loading.set(false);
+          this.spinner.hide();
+        },
+        error: () => {
+          this.spinner.hide();
         },
       });
   }

@@ -20,6 +20,8 @@
     "@ng-icons/core": "^33.2.2",
     "@ng-icons/heroicons": "^33.2.2",
     "@tailwindcss/postcss": "^4.2.4",
+    "ngx-signal-toast": "^1.1.4",
+    "ngx-spinner": "^21.1.0",
     "postcss": "^8.5.14",
     "rxjs": "~7.8.0",
     "tailwindcss": "^4.2.4",
