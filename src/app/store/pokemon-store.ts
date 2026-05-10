@@ -64,6 +64,7 @@ export class PokemonStoreService {
         pokemon.name.toLowerCase().includes(query.toLowerCase()) ||
         pokemon.id?.toString().includes(query),
     );
+    this.pokemonList.set(filtered);
     this.pokemonListResponse.set({ ...this.pokemonListResponse(), results: filtered });
   }
   private extractPokemonId(url: string): number {
